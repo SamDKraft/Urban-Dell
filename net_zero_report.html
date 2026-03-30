@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To Net Zero or Not — That is the Question</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --ink: #1a1a18;
+    --ink-mid: #3d3d38;
+    --ink-light: #7a7a72;
+    --paper: #f5f2eb;
+    --paper-warm: #ede9df;
+    --paper-dark: #e2ddd3;
+    --sun: #d4820a;
+    --sun-light: #f0a830;
+    --sun-pale: #fdf3e0;
+    --moss: #3d6b47;
+    --moss-light: #5a8f65;
+    --sky: #2a5c7a;
+    --sky-light: #4a82a0;
+    --rule: #c8c3b8;
+    --accent-red: #b84040;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 10%;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 59px,
+      rgba(255,255,255,0.04) 59px,
+      rgba(255,255,255,0.04) 60px
+    );
+  }
+  .cover-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sun-light);
+    margin-bottom: 32px;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 900;
+    line-height: 1.08;
+    color: var(--paper);
+    max-width: 800px;
+    position: relative;
+  }
+  .cover-title em {
+    color: var(--sun-light);
+    font-style: italic;
+  }
+  .cover-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    color: rgba(245,242,235,0.55);
+    margin-top: 28px;
+    letter-spacing: 0.04em;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .cover-meta {
+    margin-top: 64px;
+    display: flex;
+    gap: 48px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 28px;
+  }
+  .cover-meta-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: rgba(245,242,235,0.4);
+    text-transform: uppercase;
+  }
+  .cover-meta-item span {
+    display: block;
+    color: rgba(245,242,235,0.7);
+    margin-top: 4px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  /* ── PART DIVIDERS ── */
+  .part-divider {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 10%;
+    margin: 0;
+  }
+  .part-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sun-light);
+    margin-bottom: 16px;
+  }
+  .part-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 680px;
+  }
+  .part-title em { color: var(--sun-light); font-style: italic; }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--sun);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 36px 0 12px;
+    color: var(--ink);
+  }
+
+  /* ── BODY TEXT ── */
+  p { margin-bottom: 18px; font-size: 16px; color: var(--ink-mid); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── RULE ── */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 3px solid var(--sun);
+    padding: 20px 28px;
+    margin: 40px 0;
+    background: var(--sun-pale);
+  }
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ── CALLOUT BOX ── */
+  .callout {
+    border: 1px solid var(--rule);
+    background: var(--paper-warm);
+    padding: 28px 32px;
+    margin: 36px 0;
+  }
+  .callout-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+  }
+  .callout p { font-size: 15px; margin-bottom: 10px; }
+
+  /* ── GRID CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 36px 0;
+  }
+  .card {
+    background: var(--paper);
+    padding: 24px;
+  }
+  .card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 6px;
+  }
+  .card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .card p { font-size: 14px; margin: 0; color: var(--ink-mid); }
+
+  /* ── RECOMMENDATION BLOCKS ── */
+  .rec-list { margin: 28px 0; }
+  .rec-item {
+    display: flex;
+    gap: 20px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .rec-item:first-child { border-top: 1px solid var(--rule); }
+  .rec-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--sun-light);
+    line-height: 1;
+    min-width: 36px;
+    padding-top: 2px;
+  }
+  .rec-body h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: var(--ink);
+  }
+  .rec-body p { font-size: 14px; margin: 0; color: var(--ink-mid); }
+
+  /* ── CHART CONTAINERS ── */
+  .chart-wrap {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 28px;
+    margin: 32px 0;
+  }
+  .chart-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 18px;
+  }
+  .chart-inner {
+    position: relative;
+    height: 280px;
+    width: 100%;
+  }
+  .chart-note {
+    font-size: 12px;
+    color: var(--ink-light);
+    margin-top: 12px;
+    margin-bottom: 0;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-mid);
+  }
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── WIND ROSE SVG ── */
+  .wind-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin: 32px 0;
+    align-items: start;
+  }
+  @media(max-width: 600px) { .wind-wrap { grid-template-columns: 1fr; } }
+
+  /* ── PASSIVE STRATEGY BLOCKS ── */
+  .strategy-block {
+    border-left: 3px solid var(--moss);
+    padding: 20px 24px;
+    background: #f0f5f1;
+    margin: 24px 0;
+  }
+  .strategy-block.sky-block {
+    border-left-color: var(--sky);
+    background: #eef3f7;
+  }
+  .strategy-block.sun-block {
+    border-left-color: var(--sun);
+    background: var(--sun-pale);
+  }
+  .strategy-block h4 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 7px;
+    color: var(--ink);
+  }
+  .strategy-block p { font-size: 14px; margin: 0; color: var(--ink-mid); }
+
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 14px; }
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+  td { padding: 12px; border-bottom: 1px solid var(--rule); color: var(--ink-mid); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { color: var(--ink); font-weight: 500; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    color: rgba(245,242,235,0.35);
+    padding: 40px 10%;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer a { color: var(--sun-light); text-decoration: none; }
+
+  /* ── SECTION SPACING ── */
+  .section { margin-bottom: 64px; }
+  .section:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-tag">Studio Viridian — Urban Dell Pre-Design Research · 2026</div>
+  <h1 class="cover-title">To Net Zero<br>or <em>Not</em> —<br>That is the Question</h1>
+  <p class="cover-subtitle">A pre-design research report examining solar architecture, Seattle's unique grid conditions, and the case for climate-resilient passive design at 3786 SW Grayson Street.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">Project<span>Urban Dell</span></div>
+    <div class="cover-meta-item">Location<span>West Seattle, WA</span></div>
+    <div class="cover-meta-item">Prepared by<span>Studio Viridian</span></div>
+    <div class="cover-meta-item">Date<span>2026</span></div>
+  </div>
+</div>
+
+<!-- ══ PART I DIVIDER ══ -->
+<div class="part-divider">
+  <div class="part-number">Part I</div>
+  <div class="part-title">Solar Architecture <em>Foundations</em></div>
+</div>
+
+<!-- ══ PART I CONTENT ══ -->
+<div class="page">
+
+  <!-- 1.1 What is Net Zero -->
+  <div class="section">
+    <div class="section-label">1.1</div>
+    <h2>What is Net Zero Architecture?</h2>
+    <p>A net zero energy building produces as much energy on an annual basis as it consumes. The concept is straightforward: through a combination of aggressive energy demand reduction (envelope performance, efficient systems, occupant behavior) and on-site renewable generation (typically solar photovoltaics), the building's energy account balances to zero at year's end.</p>
+    <p>Net zero matters because buildings account for roughly 40% of total energy use in the United States — and the energy consumed heating, cooling, lighting, and powering buildings is one of the largest contributors to carbon emissions globally. A building designed well will outlast the mechanical equipment inside it by decades; the decisions made at the design stage lock in a performance trajectory for fifty years or more.</p>
+    <p>But net zero is not a single standard. It exists on a spectrum from Net Zero Energy — the most common definition, focused on operational energy — to more demanding frameworks like the Living Building Challenge, which requires net positive energy, carbon, and water performance, and prohibits a list of toxic materials. LBC certification is the benchmark Studio Viridian holds as its north star.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">Strategy 1</div>
+        <h4>Reduce Demand</h4>
+        <p>Insulation, air sealing, thermal mass, passive solar, efficient appliances. Cut what the building needs before generating anything.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Strategy 2</div>
+        <h4>Generate On-Site</h4>
+        <p>Solar PV is the dominant technology. Wind, micro-hydro, and geothermal are possible complements depending on site conditions.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Strategy 3</div>
+        <h4>Store &amp; Shift</h4>
+        <p>Battery storage decouples generation from consumption, enabling self-sufficiency and grid resilience during peak stress events.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 1.2 Solar Geometry -->
+  <div class="section">
+    <div class="section-label">1.2</div>
+    <h2>How Solar Geometry Can Drive Architectural Massing</h2>
+    <p>The sun's path is predictable and immovable. At Seattle's latitude of 47.6°N, it rises and sets south of due east and west for most of the year, reaching only 18° above the horizon at the December solstice noon and climbing to 66° at the June solstice. These angles are not abstract — they determine which surfaces of a building receive meaningful solar energy, and by how much.</p>
+    <p>In a rigorously solar-optimized project, this geometry can become the <em>primary driver of architectural massing</em>. A south-facing long axis maximizes winter solar gain through glazing. A roof pitched at 35–40° — close to Seattle's latitude angle — maximizes the perpendicularity between the panel surface and the winter sun. Deep overhangs calibrated to block the high summer sun while admitting the low winter sun become a structural rhythm that defines the building's profile.</p>
+    <p>This is not purely theoretical. Passive house projects, Living Building Challenge buildings, and many vernacular traditions worldwide are organized first around the sun. The Zome, the classic solar farmhouse, the Earthship — all read as solar instruments as much as buildings. The question is whether, in a specific urban context with specific site constraints, that solar imperative is strong enough to override other design forces: program, topography, view, street relationship, and civic gesture.</p>
+
+    <div class="pull-quote">
+      <p>"At Seattle's latitude, a roof tilted at 35–40° facing due south captures the most total annual solar energy — but whether that constraint should govern the building's form depends entirely on what else the building is trying to do."</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Orientation</th>
+          <th>Relative Annual Output</th>
+          <th>Peak Production</th>
+          <th>Notes for Seattle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>South, 35–40° tilt</td>
+          <td>100% (baseline)</td>
+          <td>Solar noon, year-round</td>
+          <td>Maximum total kWh; best with battery storage</td>
+        </tr>
+        <tr>
+          <td>Southwest, 30° tilt</td>
+          <td>~92–95%</td>
+          <td>Early-mid afternoon</td>
+          <td>Good compromise; aligns with afternoon clearing</td>
+        </tr>
+        <tr>
+          <td>West, 25–30° tilt</td>
+          <td>~80–85%</td>
+          <td>Late afternoon 3–6pm</td>
+          <td>Grid-aligned without storage; lower total output</td>
+        </tr>
+        <tr>
+          <td>East + West split</td>
+          <td>~78–82%</td>
+          <td>Flat curve, 8am–6pm</td>
+          <td>Broadest production; good self-consumption match</td>
+        </tr>
+        <tr>
+          <td>Flat, 10° tilt</td>
+          <td>~85–88%</td>
+          <td>Midday</td>
+          <td>Common on low-slope roofs; loses winter output</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- 1.3 Duck Curve -->
+  <div class="section">
+    <div class="section-label">1.3</div>
+    <h2>The Duck Curve: When Solar Floods the Grid</h2>
+    <p>The duck curve is one of the most consequential concepts in modern grid management — and it has real design implications for how solar is oriented and specified in a net zero project. The name comes from the shape of the California ISO's net load curve: the demand that utilities still have to supply after solar production is subtracted out. Plotted over a single day, it looks like a duck in profile.</p>
+
+    <p>Here's what's happening over a typical day with significant solar penetration on the grid:</p>
+    <ul style="margin: 0 0 18px 20px; color: var(--ink-mid); font-size: 16px; line-height: 1.9;">
+      <li><strong style="color: var(--ink); font-weight: 500;">Morning:</strong> demand rises, solar is barely producing — utilities ramp up conventional generation normally.</li>
+      <li><strong style="color: var(--ink); font-weight: 500;">Midday:</strong> solar floods the grid — net load drops sharply into the "belly." Power may be curtailed or sold at near-zero prices.</li>
+      <li><strong style="color: var(--ink); font-weight: 500;">Late afternoon:</strong> solar falls off as the sun drops, but demand surges as people return home — utilities must ramp generation steeply and fast. This is the "neck" of the duck, and it is expensive, grid-stressing, and often met by gas peaker plants.</li>
+    </ul>
+
+    <div class="chart-wrap">
+      <div class="chart-title">The Duck Curve — Illustrative Daily Load Profile</div>
+      <div class="chart-inner">
+        <canvas id="duckChart"></canvas>
+      </div>
+      <div class="legend" style="margin-top: 14px;">
+        <div class="legend-item"><div class="legend-swatch" style="background:#4a82a0;"></div>Total demand</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#d4820a;"></div>Solar generation</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#b84040;"></div>Net load (what utilities must supply)</div>
+      </div>
+      <p class="chart-note">↑ The "belly" is overgeneration. The steep "neck" is the rapid-ramp challenge utilities face each evening.</p>
+    </div>
+
+    <h3>How the Duck Curve Affects Solar Geometry and Massing</h3>
+    <p>The conventional solar geometry argument — face south, tilt at latitude, maximize annual kWh — optimizes for total production. But total production peaks at solar noon, precisely when the duck's belly is deepest and the grid has the least need for more power. Without storage, a south-facing array exports energy at exactly the wrong time.</p>
+    <p>This has led designers and grid operators to reconsider orientation as a grid-service decision, not just an energy-quantity decision. A west-facing array shifts production toward the 3–6pm window when net load is climbing fast. An east-west split creates a broader, flatter production curve that better matches actual daily consumption. In both cases, the roof geometry — and therefore the architectural massing that the roof geometry expresses — changes.</p>
+    <p>However, with battery storage, this tension largely resolves. Storage decouples generation timing from consumption timing. The battery charges during peak solar production — belly or not — and dispatches in the evening. With storage confirmed, the south-facing orientation recovers its primacy: maximize what you put in the battery, and let the battery handle the grid relationship.</p>
+
+    <div class="callout">
+      <div class="callout-title">Design implication</div>
+      <p>For Urban Dell with battery storage confirmed: optimize roof geometry for maximum south-facing production at 35–40° tilt. The duck curve does not override the solar geometry — storage neutralizes the timing problem. The massing question returns to what best serves the building's program, civic gesture, and site relationship.</p>
+    </div>
+  </div>
+
+</div><!-- end page -->
+
+<!-- ══ PART II DIVIDER ══ -->
+<div class="part-divider">
+  <div class="part-number">Part II</div>
+  <div class="part-title">So How Important is Net Zero<br><em>Here at Urban Dell?</em></div>
+</div>
+
+<!-- ══ PART II CONTENT ══ -->
+<div class="page">
+
+  <!-- 2 Grid Carbon -->
+  <div class="section">
+    <div class="section-label">2.0</div>
+    <h2>Seattle's Grid is Already Nearly Carbon-Free</h2>
+    <p>Before asking whether Urban Dell should pursue net zero energy, it's worth understanding what the grid looks like in Seattle — because the answer changes the entire framing of the question.</p>
+    <p>Seattle City Light's electricity supply is dominated by hydroelectric generation. The utility has reported a near-zero carbon intensity for its power supply for years, and routinely ranks as one of the greenest utilities in the country. Puget Sound Energy, which serves parts of the region outside Seattle City Light's territory, has a somewhat higher carbon intensity due to a mix of natural gas and renewables — but has committed to a fossil-free grid by 2045.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Grid Carbon Intensity — Context for Seattle</div>
+      <div class="chart-inner" style="height: 240px;">
+        <canvas id="carbonChart"></canvas>
+      </div>
+      <p class="chart-note">lbs CO₂ per MWh — lower is better. Seattle City Light approaches zero through near-total hydroelectric supply.</p>
+    </div>
+
+    <p>The practical implication is significant: if Urban Dell draws electricity from Seattle City Light and that electricity is already near-zero carbon, then generating solar power on-site displaces almost no carbon emissions. The carbon case for rooftop solar in Seattle — which is compelling in Houston or Atlanta, where every displaced kilowatt-hour avoids burning coal or gas — is genuinely weak on today's grid.</p>
+    <p>This is not an argument against solar. It is an argument for being precise about <em>why</em> you are installing it. The answer in Seattle is not primarily carbon. It is resilience, LBC certification alignment, future-proofing, and cultural communication — all of which are real and worth pursuing, but which carry different design implications than a carbon-first argument would.</p>
+
+    <div class="pull-quote">
+      <p>"In Seattle, the strongest case for rooftop solar is not what it avoids emitting today — it is what it insures against over the next thirty years."</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 3 Hydro Future -->
+  <div class="section">
+    <div class="section-label">3.0</div>
+    <h2>The 30-Year Horizon: Wrong Water at the Wrong Time</h2>
+    <p>The 30-year life of a building built today extends to 2055. Over that period, the Pacific Northwest's hydro-dependent grid faces structural changes that shift the calculus considerably.</p>
+
+    <h3>The snowpack problem</h3>
+    <p>The Columbia River system's generating capacity is not simply a function of total annual precipitation — it is a function of <em>when</em> that water arrives. Historically, the Cascades and Rockies have stored winter precipitation as snowpack and released it slowly through summer, providing reliable water and hydropower through the peak demand season. Climate change is dismantling this mechanism.</p>
+    <p>Research from PNNL found that by 2050, the Pacific Northwest will have hotter temperatures, drier summers, and more total precipitation — but that precipitation will be increasingly concentrated in fall, winter, and spring, and an increasing fraction will fall as rain rather than snow. The snowpack battery disappears. More water arrives all at once in winter, when demand is lower and dams must often spill it for flood control. Summer arrives with shrunken reservoirs and hotter, longer peak demand periods.</p>
+    <p>A 2024 EIA analysis found that hydropower generation in the Northwest was 23% below the 10-year average — a preview of conditions that will become more frequent. And a Nature Communications study identified a profound seasonal reversal in power shortfall risk: winter shortfalls shrink as heating loads decrease, but summer shortfalls multiply as cooling loads spike precisely when hydro supply is most constrained.</p>
+
+    <h3>The compound risk: more heat, more electricity demand, less summer hydro</h3>
+    <p>Seattle's 2021 heat dome was a system-level stress test that revealed a dangerous combination: a building stock and population adapted to mild summers, suddenly facing multi-day extreme heat, with a grid that depends on a hydro system already stressed by low summer flows. The event killed over 100 people in the Pacific Northwest. It will not be the last event of its kind.</p>
+    <p>Simultaneously, electrification of transportation and space heating will substantially increase total grid demand through the 2030s and 2040s. Heat pumps, EV charging, and electrified cooking all add load to a grid that must meet summer peaks with diminished hydro and increasingly stretched transmission capacity.</p>
+
+    <h3>The dam removal wildcard</h3>
+    <p>The political and ecological pressure on Pacific Northwest dams is real and growing. Debate over Snake River dam removal — involving treaty rights, salmon recovery, and regional power supply — has persisted for decades. If significant hydro capacity comes offline for ecological or treaty reasons over the next 30 years, the grid becomes meaningfully tighter and potentially dirtier as gas peakers fill the gap.</p>
+
+    <div class="callout">
+      <div class="callout-title">The 30-year summary</div>
+      <p>Today's near-zero grid is not a guarantee of tomorrow's grid. The trends all point the same direction: summer supply gets tighter, summer demand gets larger, and the grid carbon intensity during peak periods rises. Solar + storage positioned on Urban Dell becomes more valuable, not less, as these trends mature.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 4 Recommendations -->
+  <div class="section">
+    <div class="section-label">4.0</div>
+    <h2>Recommendations: Resilience Over Net Zero Purity</h2>
+    <p>Given Seattle's current grid conditions and the 30-year trends identified above, the following recommendations reframe the project's energy ambitions away from net zero as an abstract certification goal and toward net zero as a resilience and future-readiness strategy.</p>
+
+    <div class="rec-list">
+      <div class="rec-item">
+        <div class="rec-num">1</div>
+        <div class="rec-body">
+          <h4>Don't lead with net zero — lead with resilience</h4>
+          <p>The carbon argument for net zero energy is weak on Seattle's current grid. The resilience argument is strong and strengthening. Frame solar + storage as a 30-year insurance policy against grid stress, summer heat events, and a changing hydro system — not as a carbon offset exercise. This is a more honest and more durable rationale.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">2</div>
+        <div class="rec-body">
+          <h4>Size the solar + storage system for resilience, not maximum annual kWh</h4>
+          <p>With battery storage confirmed, orient panels south at 35–40° tilt to maximize total production. Right-size the battery for 2–3 days of critical loads during a summer outage or heat emergency. This is a different design brief than "generate as much as possible" — it is "be able to function independently when the grid cannot serve you."</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">3</div>
+        <div class="rec-body">
+          <h4>Prioritize embodied carbon over operational carbon</h4>
+          <p>For a well-insulated building on a clean grid, embodied carbon — locked into the structure, envelope, and finishes at the moment of construction — can represent 80–90% of the building's lifetime carbon footprint. Deconstruction-as-ritual, salvaged materials, mass timber, and low-carbon concrete do more climate work per dollar than the solar array. This is already central to Urban Dell's design philosophy and should be foregrounded in the project narrative.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">4</div>
+        <div class="rec-body">
+          <h4>Design solar-ready, not solar-maximized</h4>
+          <p>Invest in conduit, structural capacity, and electrical infrastructure that makes the building solar-ready for the full roof area, even if the initial array is conservatively sized. Panel costs continue to fall; the grid's value proposition for distributed generation continues to improve. Future occupants should be able to expand the system without re-engineering the building.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-num">5</div>
+        <div class="rec-body">
+          <h4>Treat LBC alignment as the north star, not a checkbox</h4>
+          <p>If Living Building Challenge certification is the aspiration, the net zero energy petal is non-negotiable regardless of grid conditions. LBC's requirements are absolute — the building must produce more than it consumes on an annual basis, measured and verified. In this case, maximize the array. But be clear that you are pursuing this for certification integrity and demonstration value, not because the Seattle grid requires it for climate impact.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- 5 Passive Design -->
+  <div class="section">
+    <div class="section-label">5.0</div>
+    <h2>The Bigger Lever: Passive Design</h2>
+    <p>If the case for aggressive net zero energy generation is nuanced in Seattle, the case for aggressive passive design is not. Passive strategies — envelope performance, thermal mass, solar screening, and natural ventilation — reduce the building's energy demand before any generation is required. They make every kilowatt-hour of solar more effective. And in a warming climate where summer comfort becomes increasingly critical, they make the building livable without mechanical cooling, which is the most resilient outcome of all.</p>
+    <p>In Seattle's climate — mild, diffuse, marine — the psychrometric analysis is particularly favorable: a well-designed passive building can handle nearly all summer hours within the comfort zone through natural ventilation, thermal mass, and night purge alone, with no mechanical cooling required. This is the design opportunity.</p>
+
+    <h3>Strategy 1 — Insulation and Thermal Mass</h3>
+    <div class="strategy-block sun-block">
+      <h4>Reduce the load before you generate</h4>
+      <p>A highly insulated, air-tight envelope — targeting Passive House levels of R-40+ walls, R-60+ roof, triple-pane glazing, and continuous air barrier — dramatically reduces heating and cooling loads. Thermal mass (concrete, stone, or earth) inside the insulation layer absorbs daytime heat and releases it at night, moderating swings. In Seattle's mild climate, thermal mass is particularly effective: nights stay cool even during heat events, allowing the mass to recharge. Together, these strategies can reduce heating and cooling energy by 70–80% compared to code-minimum construction. This is the single highest-impact design decision available.</p>
+    </div>
+
+    <h3>Strategy 2 — Solar Screening and Summer Shading</h3>
+    <div class="strategy-block sun-block">
+      <h4>Block thermal gain before it enters</h4>
+      <p>Seattle's warming summers — punctuated by increasingly severe heat events — make solar screening a critical design element, not an aesthetic option. The geometry is specific: at 47.6°N latitude, the summer sun reaches 66° elevation at noon, traveling a wide arc to the north of east-west. South-facing glazing is actually the easiest to screen: a fixed horizontal overhang calibrated to the June sun angle can fully shade south glass at noon in summer while allowing the low winter sun (18° elevation) to penetrate fully. East and west glazing is harder to screen with fixed elements and benefits from operable shading — louvers, screens, or vegetation. The west face in particular should be treated with caution in a warming climate: afternoon west sun in July is low, intense, and penetrating, and no fixed overhang can block it. Vertical fins, recessed glazing, or operable exterior shading are appropriate responses. The green roof component of the waveform massing provides meaningful albedo benefit and thermal buffer for the roof assembly itself.</p>
+    </div>
+
+    <h3>Strategy 3 — Passive Ventilation Oriented to Seattle's Wind Rose</h3>
+    <div class="strategy-block sky-block">
+      <h4>Use the northwest summer breeze — Seattle's natural air conditioning</h4>
+      <p>Seattle has a seasonal wind pattern that is one of its most underutilized design assets. In winter and spring, winds arrive predominantly from the south-southwest — warm, wet frontal systems tracking northeast off the Pacific. In summer, the pattern shifts: the dominant wind becomes a northwest to north-northwest marine push, driven by onshore flow from Puget Sound and the Strait of Juan de Fuca. This is Seattle's natural air conditioning. The summer NW breeze is typically cool (55–68°F), moisture-moderated, and reliable on most non-heat-wave days. West Seattle's ridge position above Elliott Bay means this breeze arrives with minimal obstruction.</p>
+      <p>The passive ventilation design implication is direct: orient primary operable glazing to receive the northwest breeze on the windward (NW) face, with cross-ventilation exhaust on the southeast face. Inlets placed low on the northwest face and exhausts placed high on the southeast — whether through clerestory windows, a ridge vent, or a thermal chimney — use the stack effect to amplify the breeze-driven flow. On the days that matter most — warm, still summer afternoons — stack ventilation can maintain comfort even without wind. On the more common days with a northwest marine push, cross-ventilation can keep interior temperatures 3–5°F below ambient, often the difference between comfort and distress during a mild heat event.</p>
+      <p>Night purge ventilation completes the strategy: open the northwest and southeast faces widely after 9pm, allow the cool marine air to flush the thermal mass, and close up before morning. The mass stores the coolth and releases it through the hot afternoon hours. This sequence — load reduction through mass, solar blocking through screens, and night purge through northwest-facing openings — is the full passive cooling toolkit for Seattle, and it performs well enough that mechanical cooling may be unnecessary in most years, even as the climate warms.</p>
+    </div>
+
+    <div class="strategy-block">
+      <h4>Summary: passive first, solar second</h4>
+      <p>The hierarchy for Urban Dell should be: reduce the load aggressively through passive design, then right-size the solar + storage system to cover what remains. A building that needs 30 kWh/day can be served by a far smaller array than one that needs 60 kWh/day — and the passive strategies cost less per unit of comfort delivered than panels do per unit of energy generated. In Seattle's climate and on Seattle's grid, this is the most honest, most effective, and most resilient design path.</p>
+    </div>
+
+    <div class="card-grid" style="margin-top: 40px;">
+      <div class="card">
+        <div class="card-label">Passive priority</div>
+        <h4>Envelope + Mass</h4>
+        <p>R-40+ walls, R-60+ roof, triple glazing, continuous air barrier. Thermal mass inside insulation layer. 70–80% load reduction potential.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Passive priority</div>
+        <h4>Solar Screening</h4>
+        <p>Fixed overhangs for south glass. Vertical fins or operable shading on west. Green roof as thermal buffer. Block gain before it enters.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Passive priority</div>
+        <h4>NW Cross-Ventilation</h4>
+        <p>Low inlets on NW face, high exhausts on SE. Night purge through marine breeze. Stack effect amplifies on still days.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Active layer</div>
+        <h4>Solar + Storage</h4>
+        <p>South-facing, 35–40° tilt. Battery sized for 2–3 days critical load. Resilience-first, net zero second.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page -->
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <div>Studio Viridian — Urban Dell Pre-Design Research · 2026</div>
+  <div>3786 SW Grayson Street, West Seattle, WA</div>
+</div>
+
+<!-- ══ CHARTS ══ -->
+<script>
+// ── Duck Curve ──
+(function() {
+  const ctx = document.getElementById('duckChart').getContext('2d');
+  const hours = ['12a','2a','4a','6a','8a','10a','12p','2p','4p','6p','8p','10p','12a'];
+  const demand =  [18000,16500,15800,16200,19000,22500,25000,26500,27000,29000,28500,24000,19500];
+  const solar  =  [0,0,0,0,2000,8500,14000,16000,14500,5000,500,0,0];
+  const netLoad = demand.map((d,i) => d - solar[i]);
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: hours,
+      datasets: [
+        {
+          label: 'Total demand',
+          data: demand,
+          borderColor: '#4a82a0',
+          backgroundColor: 'rgba(74,130,160,0.07)',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.4,
+          fill: false
+        },
+        {
+          label: 'Solar generation',
+          data: solar,
+          borderColor: '#d4820a',
+          backgroundColor: 'rgba(212,130,10,0.12)',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.4,
+          fill: 'origin'
+        },
+        {
+          label: 'Net load',
+          data: netLoad,
+          borderColor: '#b84040',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          tension: 0.4,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString() + ' MW'
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: { color: '#7a7a72', font: { size: 11, family: 'DM Mono' }, maxRotation: 0 }
+        },
+        y: {
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: {
+            color: '#7a7a72',
+            font: { size: 11, family: 'DM Mono' },
+            callback: v => (v/1000).toFixed(0) + 'k MW'
+          }
+        }
+      }
+    }
+  });
+})();
+
+// ── Carbon Intensity ──
+(function() {
+  const ctx = document.getElementById('carbonChart').getContext('2d');
+  const labels = ['US Average Grid','Puget Sound Energy','Seattle City Light','On-Site Solar PV'];
+  const data   = [880, 320, 12, 0];
+  const colors = ['#b84040','#d4820a','#4a82a0','#3d6b47'];
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors.map(c => c + '22'),
+        borderColor: colors,
+        borderWidth: 1.5,
+        borderRadius: 3
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ' ' + ctx.parsed.x + ' lbs CO₂ / MWh'
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          ticks: { color: '#7a7a72', font: { size: 11, family: 'DM Mono' } },
+          title: { display: true, text: 'lbs CO₂ per MWh', color: '#7a7a72', font: { size: 11, family: 'DM Mono' } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: '#3d3d38', font: { size: 13, family: 'DM Sans' } }
+        }
+      }
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
