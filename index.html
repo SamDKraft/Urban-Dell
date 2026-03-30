@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Viridian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #1c1c1a;
+    --cream:      #f4efe6;
+    --sage:       #4a6741;
+    --sage-light: #7a9e70;
+    --gold:       #9e6d2a;
+    --muted:      rgba(28,28,26,0.45);
+    --rule:       rgba(28,28,26,0.12);
+    --serif:      'EB Garamond', Georgia, serif;
+    --display:    'Cormorant Garamond', Georgia, serif;
+    --mono:       'Courier New', monospace;
+  }
+
+  html, body {
+    height: 100%;
+  }
+
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 3.5rem 3rem 0;
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage-light);
+  }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem;
+    max-width: 680px;
+  }
+
+  .studio-name {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--cream);
+    margin-bottom: 0.2em;
+  }
+
+  .studio-name em {
+    font-style: italic;
+    color: var(--sage-light);
+  }
+
+  .tagline {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    font-style: italic;
+    color: rgba(244,239,230,0.4);
+    margin-bottom: 4rem;
+    margin-top: 0.6rem;
+  }
+
+  /* ── PROJECT LIST ── */
+  .projects-label {
+    font-family: var(--mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-list {
+    list-style: none;
+    border-top: 1px solid rgba(244,239,230,0.1);
+  }
+
+  .project-list li {
+    border-bottom: 1px solid rgba(244,239,230,0.1);
+  }
+
+  .project-list a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.4rem 0;
+    text-decoration: none;
+    color: var(--cream);
+    transition: color 0.2s ease;
+  }
+
+  .project-list a:hover {
+    color: var(--sage-light);
+  }
+
+  .project-list a:hover .project-arrow {
+    transform: translateX(4px);
+    color: var(--sage-light);
+  }
+
+  .project-name {
+    font-family: var(--display);
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.2;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .project-type {
+    font-family: var(--mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.3);
+  }
+
+  .project-arrow {
+    font-size: 0.9rem;
+    color: rgba(244,239,230,0.25);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem 3rem;
+    font-family: var(--mono);
+    font-size: 0.45rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.2);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── FADE IN ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .studio-name  { animation: fadeUp 0.7s ease 0.1s both; }
+  .tagline      { animation: fadeUp 0.7s ease 0.2s both; }
+  .projects-label { animation: fadeUp 0.7s ease 0.3s both; }
+  .project-list { animation: fadeUp 0.7s ease 0.4s both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 560px) {
+    header { padding: 2.5rem 1.5rem 0; }
+    main   { padding: 3rem 1.5rem; }
+    footer { padding: 1.5rem 1.5rem 2.5rem; }
+    .project-type { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Studio Viridian &nbsp;·&nbsp; Seattle</div>
+</header>
+
+<main>
+  <h1 class="studio-name">Studio<br><em>Viridian</em></h1>
+  <p class="tagline">Building the Ecological Future</p>
+
+  <div class="projects-label">Projects</div>
+  <ul class="project-list">
+    <li>
+      <a href="project-statement.html">
+        <span class="project-name">Urban Dell — Everything Is Borrowed</span>
+        <span class="project-meta">
+          <span class="project-type">Project Statement</span>
+          <span class="project-arrow">→</span>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="site-study.html">
+        <span class="project-name">Urban Dell — Site Study</span>
+        <span class="project-meta">
+          <span class="project-type">Site Analysis</span>
+          <span class="project-arrow">→</span>
+        </span>
+      </a>
+    </li>
+  </ul>
+</main>
+
+<footer>
+  <span>Studio Viridian</span>
+  <span>West Seattle · 2026</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everything Is Borrowed — Urban Dell · Studio Viridian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #1c1c1a;
+    --cream:      #f4efe6;
+    --sage:       #4a6741;
+    --sage-light: #7a9e70;
+    --sage-pale:  #e8f0e5;
+    --gold:       #9e6d2a;
+    --gold-pale:  #f5ead8;
+    --rule:       rgba(28,28,26,0.12);
+    --muted:      rgba(28,28,26,0.45);
+    --serif:      'EB Garamond', Georgia, serif;
+    --display:    'Cormorant Garamond', Georgia, serif;
+    --mono:       'Courier New', monospace;
+  }
+
+  html { font-size: 18px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--serif);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+  }
+
+  .masthead-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage-light);
+    margin-bottom: 2.2rem;
+  }
+
+  .masthead-title {
+    font-family: var(--display);
+    font-size: clamp(3.8rem, 10vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.15em;
+  }
+
+  .masthead-title em {
+    font-style: italic;
+    color: var(--sage-light);
+  }
+
+  .masthead-sub {
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    font-style: italic;
+    color: rgba(244,239,230,0.5);
+    margin-top: 1.4rem;
+    letter-spacing: 0.02em;
+  }
+
+  .masthead-rule {
+    width: 1px;
+    height: 60px;
+    background: var(--sage-light);
+    margin: 2rem auto 0;
+    opacity: 0.4;
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding-top: 4rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 4rem;
+  }
+
+  .section:first-of-type {
+    border-top: none;
+    margin-top: 3rem;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  /* ── BODY TEXT ── */
+  .body-text p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--ink);
+    margin-bottom: 1.4rem;
+  }
+
+  .body-text p:last-child { margin-bottom: 0; }
+
+  .body-text em { font-style: italic; }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    margin: 2.5rem 0;
+    padding: 1.4rem 0 1.4rem 2rem;
+    border-left: 2px solid var(--sage);
+    font-family: var(--display);
+    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--sage);
+  }
+
+  /* ── PARTI (final section) ── */
+  .parti {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 3.5rem 3rem;
+    margin-top: 4rem;
+  }
+
+  .parti .section-label { color: var(--sage-light); }
+
+  .parti .section-title { color: var(--cream); }
+
+  .parti .body-text p { color: rgba(244,239,230,0.82); }
+
+  .parti-closer {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(244,239,230,0.12);
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--sage-light);
+    line-height: 1.5;
+  }
+
+  /* ── COLOPHON ── */
+  .colophon {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(244,239,230,0.15);
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.35);
+  }
+
+  /* ── FADE IN ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .masthead-eyebrow { animation: fadeUp 0.8s ease both; }
+  .masthead-title   { animation: fadeUp 0.8s ease 0.15s both; }
+  .masthead-sub     { animation: fadeUp 0.8s ease 0.3s both; }
+  .masthead-rule    { animation: fadeUp 0.8s ease 0.45s both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .page { padding: 0 1.25rem 4rem; }
+    .masthead { padding: 2.5rem 1.25rem 2rem; }
+    .parti { padding: 2.5rem 1.5rem; }
+    .pull-quote { padding-left: 1.25rem; }
+  }
+
+  @media print {
+    body { background: white; }
+    .masthead { background: #1c1c1a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .parti { background: #1c1c1a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-eyebrow">Studio Viridian &nbsp;·&nbsp; Urban Dell &nbsp;·&nbsp; Project Statement &nbsp;·&nbsp; 2026</div>
+  <h1 class="masthead-title">Everything<br><em>Is Borrowed</em></h1>
+  <p class="masthead-sub">3786 SW Grayson Street, West Seattle — A Project Statement</p>
+  <div class="masthead-rule"></div>
+</header>
+
+<!-- BODY -->
+<main class="page">
+
+  <!-- I -->
+  <section class="section">
+    <span class="section-label">I</span>
+    <h2 class="section-title">The Land Speaks First</h2>
+    <div class="body-text">
+      <p>Designing is an act of listening. The land has a voice — carried in its slope, its water, its ecology, the memory held in its soil of everything that has stood here and everything that has moved through it. Our work is not imposition. It is translation — calling forward what the land is already saying.</p>
+      <p>The land at 3786 SW Grayson Street is already in motion — sliding north and downward toward Puget Sound, following the same ancient draw that carved Fairmount Avenue into the hillside below. A house and garage built in 1938 and added to in the 1960s stands at the crown of the hill, its foundation now a memory held in the land itself. The hill has been quietly rejecting parts of the structure for years — the earth pulling away from concrete that tried to hold it flat, pulling down into the ravine to the north and reaching toward the Puget Sound formed by glaciers long before any grid was drawn across it.</p>
+      <p>Less than half a mile to the north is the shore where the water taxi docks from its trip from downtown across Elliott Bay. The land is telling us that it is a connector — between ridge and shore, between neighborhood and waterfront, between the human and the more-than-human world. The ECA designation that protects the ravine is the City's imperfect acknowledgment of what the land already knows: that this corridor belongs to a body larger than any parcel. Our first act of design is simply to hear it — to draw a path from SW Grayson Street down through the ravine to Fairmount Ave SW, creating a pedestrian connection from the shore up to the neighborhood on the ridge.</p>
+    </div>
+    <blockquote class="pull-quote">The cadastral grid is a fiction imposed upon a living system. We are obligated to work within it. We are not obligated to believe it.</blockquote>
+  </section>
+
+  <!-- II -->
+  <section class="section">
+    <span class="section-label">II</span>
+    <h2 class="section-title">Deconstruction as Ritual</h2>
+    <div class="body-text">
+      <p>There is an ancient grammar to taking a building apart. It is the same grammar as building one — only run in reverse, and perhaps more honest. When we swing a hammer to drive a nail, we are making a claim: <em>this will stand.</em> When we pull that nail, we are releasing that claim. We are saying: <em>we held this for a time. Now it returns.</em></p>
+      <p>Demolition is erasure. Deconstruction is reading. The old house will be taken apart by hand — piece by piece, member by member — by people who understand that the world is not raw material. It is already full of intention, of labor, of human presence accumulated across generations. The Douglas fir joists, the steel nails, the plaster lath: each is a sentence in a longer story. The deconstruction crew become its careful readers, translating a building backward into its constituent truths. The materials schedule is not a logistical document. It is a ledger of stewardship.</p>
+      <p>What can be reused, will be. What can be transformed, will be. What must finally be released will leave the site with acknowledgment, not indifference. The concrete and rebar of the failing garage slab will be cycled back into the economy — its mass not wasted, only changed. The old foundation is retained, traced, and built upon. This is a structural acknowledgment that we did not begin this story. We are its middle passage.</p>
+    </div>
+    <blockquote class="pull-quote">We do not waste what was given. We handle it with care. We pass it forward.</blockquote>
+  </section>
+
+  <!-- III -->
+  <section class="section">
+    <span class="section-label">III</span>
+    <h2 class="section-title">The Building Rises</h2>
+    <div class="body-text">
+      <p>A building that rises from the land does not sit upon it — it continues it. At Urban Dell, the slope falls away to the north as the building lifts to the south, mimicking the motion of the hill, extending its logic upward into form that harnesses the energy of the sun. The roof is not a lid placed on a box. It is a wave — born from the living green surface of the earth at its base, lifting and tilting toward the southern sky at its crest, where solar panels receive the light that runs this building's life. The green roof and the solar roof are not two systems in competition. They are two moments in a single gesture: earth becoming energy, earth becoming shelter, earth becoming sky.</p>
+      <p>The materials carry their own message. Reclaimed fir from the original structure frames a window reveal, so that the light entering the new building passes through the memory of the old one. Cedar from the Pacific Northwest speaks of this bioregion, of the forests that give it, of the obligation to use it honestly. Nothing is applied as ornament. Everything is assembled as argument. The way things are put together is the architecture speaking — about time, about place, about what we believe we owe the world.</p>
+    </div>
+  </section>
+
+  <!-- IV -->
+  <section class="section">
+    <span class="section-label">IV</span>
+    <h2 class="section-title">The Pathway Is the Project</h2>
+    <div class="body-text">
+      <p>The two houses at the crown of this hill are not the project. They make the project possible. The project is a pathway — a public corridor running from the North Admiral neighborhood down through the ravine to Fairmount Avenue and the waterfront below, connecting the water taxi to the ridge, the commuter to the neighborhood, the city to the watershed that runs beneath it.</p>
+      <p>Studio Viridian will come to the City of Seattle not to negotiate a variance, but to offer a gift. We want to build this connection. We want to make the ecology of this ravine legible to the people who pass through it. We want to create a portal in the cadastral system — a seam stitched through private ownership, linking public to public, water to street, shore to hill. In exchange, we ask for a collaborative conversation about how to site our buildings in a way that honors both the project and the corridor.</p>
+      <p>The ravine is not a liability to be managed around. It is a client — or rather, it is the representative of the larger client, which is belonging itself. The client is the connections that this piece of land can create: between people and place, between present and past, between the neighborhood and the living watershed that runs beneath it. The people who will walk this path in 2060, who will not know our names, who will simply feel that someone, once, thought about them here — they are the client too.</p>
+    </div>
+    <blockquote class="pull-quote">The boundary of the site is not the boundary of the project. The project is the path that walks the watershed.</blockquote>
+  </section>
+
+  <!-- V -->
+  <section class="section">
+    <span class="section-label">V</span>
+    <h2 class="section-title">Memory in Three Bodies</h2>
+    <div class="body-text">
+      <p>Memory lives in the land, in the architecture, and in the people who move between them — and all three are constantly reminding each other of the shared past. The land remembers the house, the garage, and the ravine. The architecture holds that memory deliberately: in the retained foundation, in the salvaged timber, in the section that traces the original topography as faithfully as the building allows. And the people carry it forward — not as information, but as atmosphere, as the quiet feeling of being held by something that has been here longer than you have.</p>
+      <p>Studio Viridian joins a growing movement of practitioners who understand that buildings are not mute objects. They speak. They carry argument and memory and aspiration in their proportions, their materials, their thresholds. For too long, the dominant sentence in the built environment has read: <em>efficiency, yield, speed, erasure.</em> We are learning to write differently — reaching back into the oldest grammatical structures of making, where to build was to enter into relationship with the land, with the community, and with time itself.</p>
+    </div>
+    <blockquote class="pull-quote">To design and build is to exercise extraordinary power. Whether or not we acknowledge it, when we claim that power, we make the world anew for everyone — for the tenant, for the crow, for the child of 2090 who will need a planet that still has soil in it.</blockquote>
+  </section>
+
+  <!-- VI — dark parti -->
+  <div class="parti">
+    <span class="section-label">VI</span>
+    <h2 class="section-title">The Parti, Simply</h2>
+    <div class="body-text">
+      <p>Two houses at the crown of a hill, rooted in the memory of what stood there, their solar faces lifted toward the south sky, their green roofs releasing the ground plane back to the earth. Between them and below: a pathway, a garden, a corridor — the site's true purpose, the gift that makes the project matter. The houses fund the pathway. The pathway justifies the houses. The land, finally, is allowed to do what it has always been trying to do: connect the ridge to the water.</p>
+    </div>
+    <p class="parti-closer">The client is belonging.<br>The project is an act of return.</p>
+    <div class="colophon">
+      <span>Studio Viridian</span>
+      <span>Urban Dell · West Seattle</span>
+      <span>March 2026</span>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>
